@@ -35,4 +35,12 @@ public class SquareSandboxTests
         Assert.IsFalse(string.IsNullOrWhiteSpace(result.TransactionId));
     }
 
+    [TestMethod]
+    public async Task M3_02_DeclinedNonce_ReturnsCardDeclined()
+    {
+        var result = await Gateway().ProcessPaymentAsync(Request(nonce: "cnon:card-nonce-declined"));
+        Assert.IsFalse(result.IsSuccess);
+        Assert.AreEqual("CARD_DECLINED", result.ErrorCode);
+    }
+
 }
