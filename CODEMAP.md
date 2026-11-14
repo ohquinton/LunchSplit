@@ -12,7 +12,7 @@ LunchSplit is split into three projects:
 
 The payment code is separated so the main application can work with `IPaymentProcessor` without depending directly on the Square SDK.
 
-## Core Payment Classes — Implemented, Pending Verification
+## Core Payment Classes
 
 **`src/LunchSplit.Core/Payments/`**
 
@@ -26,7 +26,7 @@ The payment code is separated so the main application can work with `IPaymentPro
 | `BatchPaymentResult.cs` | Keeps individual batch results and counts successful and failed payments |
 | `PaymentGatewayTimeoutException.cs` | Represents network and timeout failures during payment processing |
 
-## Square Integration (Tier 1) — Implemented, Not Yet Tested
+## Square Integration (Tier 1) — Verified
 
 **`src/LunchSplit.Infrastructure/Payments/SquarePaymentService.cs`**
 
@@ -49,11 +49,11 @@ Previously successful batch payments are not automatically refunded when a later
 | `tests/LunchSplit.Tests/Integration/SquareSandboxTests.cs` | Square Sandbox integration | M3-01 successful payment; M3-02 declined card; M3-08 unsupported currency; M3-09 idempotency; M3-10 transaction status |
 | `tests/LunchSplit.Tests/Unit/PaymentProcessorMoqTests.cs` | Isolated Moq tests | M3-03 network error; M3-04 correct amount and call count; M3-05 zero-dollar validation; M3-06 four attendees; M3-07 partial batch failure |
 
-### Moq Unit Tests (Tier 2) — Written, Not Yet Verified
+### Moq Unit Tests (Tier 2) — Verified
 
 The Moq tests use `IPaymentProcessor` and make no external API calls. The Sandbox tests exercise the Square service itself and require valid Sandbox credentials.
 
-**Implementation Status:** The payment classes, Square Sandbox integration, and Moq tests have been added to the project. Compilation and test results are still pending verification in Visual Studio.
+**Implementation Status:** The LunchSplit payment architecture builds successfully. All five Moq unit tests and all five Square Sandbox integration tests passed locally. Square integration was tested using Sandbox credentials configured through environment variables.
 
 ## Running the tests
 
