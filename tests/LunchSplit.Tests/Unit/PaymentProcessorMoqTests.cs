@@ -24,4 +24,16 @@ public class PaymentProcessorMoqTests
         await Assert.ThrowsExceptionAsync<PaymentGatewayTimeoutException>(() => coordinator.PayShareAsync(Request()));
     }
 
+    [TestMethod]
+    public async Task M3_04_Payment_PassesExactAmountAndInvokesOnce()
+    {
+        var mock = new Mock<IPaymentProcessor>();
+        mock.Setup(x => x.ProcessPaymentAsync(It.IsAny<PaymentRequest>()))
+            .ReturnsAsync(new PaymentResult { IsSuccess = true, TransactionId = "tx_123" });
+        var coordinator = new PaymentCoordinator(mock.Object);
+        var result = await coordinator.PayShareAsync(Request(25.50m));
+        Assert.IsTrue(result.IsSuccess);
+        mock.Verify(x => x.ProcessPaymentAsync(It.Is<PaymentRequest>(r => r.Amount == 25.50m)), Times.Once());
+    }
+
 }
