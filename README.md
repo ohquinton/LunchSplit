@@ -15,6 +15,23 @@ src/LunchSplit.Core/          Production code (class library)
   Engine/                     Splitter (tip + share math), Rounder (rounding + penny reconciliation)
   Helpers/                    BillValidator
   Output/                     ReceiptFormatter
+  Future/          LunchSplit
+A restaurant bill-splitting engine built with Test-Driven Development for
+CSCN72010 Software Quality I (Conestoga College). Assignment 1 covers the core
+domain logic: tip calculation, weighted splitting, rounding with penny
+reconciliation, input validation and receipt formatting.
+
+Author: Quinton Jackson
+Requirements
+- .NET 8 SDK
+- Check with dotnet --version (should start with 8.)
+Project structure
+LunchSplit.sln
+src/LunchSplit.Core/          Production code (class library)
+  Models/                     Bill, Attendee, Share, TipMode, RoundingMode, ValidationResult
+  Engine/                     Splitter (tip + share math), Rounder (rounding + penny reconciliation)
+  Helpers/                    BillValidator
+  Output/                     ReceiptFormatter
   Future/                     Stubs for F5 (CSV export) and F6 (Stripe payments) - not implemented yet
 tests/LunchSplit.Tests/       MSTest unit tests (28 tests)
 Build
