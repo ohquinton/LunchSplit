@@ -52,4 +52,16 @@ public class SquareSandboxTests
         Assert.AreEqual(400, result.HttpStatusCode);
     }
 
+    [TestMethod]
+    public async Task M3_09_IdenticalIdempotencyKey_ReturnsSamePaymentId()
+    {
+        var gateway = Gateway();
+        var request = Request(key: Guid.NewGuid().ToString("N"));
+        var first = await gateway.ProcessPaymentAsync(request);
+        Assert.IsTrue(first.IsSuccess, first.ErrorMessage);
+        var second = await gateway.ProcessPaymentAsync(request);
+        Assert.IsTrue(second.IsSuccess, second.ErrorMessage);
+        Assert.AreEqual(first.TransactionId, second.TransactionId);
+    }
+
 }
