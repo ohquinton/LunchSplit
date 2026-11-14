@@ -46,4 +46,16 @@ public class PaymentProcessorMoqTests
         mock.Verify(x => x.ProcessPaymentAsync(It.IsAny<PaymentRequest>()), Times.Never());
     }
 
+    [TestMethod]
+    public async Task M3_06_FourAttendees_FourCalls()
+    {
+        var mock = new Mock<IPaymentProcessor>();
+        mock.Setup(x => x.ProcessPaymentAsync(It.IsAny<PaymentRequest>()))
+            .ReturnsAsync(new PaymentResult { IsSuccess = true, TransactionId = "tx" });
+        var requests = Enumerable.Range(0, 4).Select(_ => Request(12.50m)).ToList();
+        var result = await new PaymentCoordinator(mock.Object).PayBatchAsync(requests);
+        Assert.AreEqual(4, result.SuccessCount);
+        mock.Verify(x => x.ProcessPaymentAsync(It.IsAny<PaymentRequest>()), Times.Exactly(4));
+    }
+
 }
