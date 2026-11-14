@@ -64,4 +64,14 @@ public class SquareSandboxTests
         Assert.AreEqual(first.TransactionId, second.TransactionId);
     }
 
+    [TestMethod]
+    public async Task M3_10_GetPaymentStatus_ReturnsCompleted()
+    {
+        var gateway = Gateway();
+        var created = await gateway.ProcessPaymentAsync(Request());
+        Assert.IsTrue(created.IsSuccess, created.ErrorMessage);
+        Assert.IsFalse(string.IsNullOrWhiteSpace(created.TransactionId));
+        var status = await gateway.GetTransactionStatusAsync(created.TransactionId!);
+        Assert.AreEqual(PaymentStatus.Completed, status);
+    }
 }
