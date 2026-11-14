@@ -14,6 +14,5 @@
 6. Restart Visual Studio to pick up environment changes. Run `dotnet test --filter "TestCategory=SquareSandbox"` in a fresh terminal.
 7. Confirm the sandbox location is CAD and that the five live tests actually execute; do not count inconclusive tests as passes.
 8. The two old `PendingTddTests` were retained deliberately. `dotnet test` without filtering remains red because they throw NotImplementedException.
-9. Preserve actual ten separate Git commits with each test's ID as it is implemented. The ZIP has no Git history.
 
-**Note:** This is a source implementation, not an independently verified build. Live Square Sandbox requires your own configured Sandbox app and token.
+
