@@ -93,3 +93,31 @@ Notes:
   already covered by M3-13.
 - **`Validate_NegativeWeight_ReturnsFail`** was added because the spec requires
   blocking negative weights but the matrix had no test for it.
+
+## Square Sandbox access for grading
+
+The five Square Sandbox integration tests were run successfully using a CAD Sandbox location. The Square access token is not stored in this repository or the submitted ZIP. The instructor can obtain the Sandbox credentials through a private, secure sharing link provided separately (for example, through the course LMS). No Square account password is required.
+
+After retrieving the Sandbox access token and location ID, open PowerShell in the solution directory and set the environment variables for that terminal session:
+
+```powershell
+$env:SQUARE_SANDBOX_ACCESS_TOKEN = Read-Host "Enter Sandbox Access Token"
+$env:SQUARE_SANDBOX_LOCATION_ID = Read-Host "Enter Sandbox Location ID"
+```
+
+Run the integration tests:
+
+```powershell
+dotnet test --filter "FullyQualifiedName~SquareSandboxTests"
+```
+
+The five Moq unit tests do not require Square credentials:
+
+```powershell
+dotnet test --filter "FullyQualifiedName~PaymentProcessorMoqTests"
+```
+
+The shared credentials must be set on the machine where the tests run. Neither the access token nor the secure-sharing link is included in this repository.list is
+  already covered by M3-13.
+- **`Validate_NegativeWeight_ReturnsFail`** was added because the spec requires
+  blocking negative weights but the matrix had no test for it.
