@@ -36,4 +36,14 @@ public class PaymentProcessorMoqTests
         mock.Verify(x => x.ProcessPaymentAsync(It.Is<PaymentRequest>(r => r.Amount == 25.50m)), Times.Once());
     }
 
+    [TestMethod]
+    public async Task M3_05_ZeroBill_DoesNotCallGateway()
+    {
+        var mock = new Mock<IPaymentProcessor>();
+        var result = await new PaymentCoordinator(mock.Object).PayShareAsync(Request(0m));
+        Assert.IsFalse(result.IsSuccess);
+        Assert.AreEqual("INVALID_AMOUNT", result.ErrorCode);
+        mock.Verify(x => x.ProcessPaymentAsync(It.IsAny<PaymentRequest>()), Times.Never());
+    }
+
 }
