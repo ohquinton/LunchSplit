@@ -58,4 +58,18 @@ public class PaymentProcessorMoqTests
         mock.Verify(x => x.ProcessPaymentAsync(It.IsAny<PaymentRequest>()), Times.Exactly(4));
     }
 
+    [TestMethod]
+    public async Task M3_07_SecondDeclined_FirstAndThirdSucceed()
+    {
+        var mock = new Mock<IPaymentProcessor>();
+        mock.SetupSequence(x => x.ProcessPaymentAsync(It.IsAny<PaymentRequest>()))
+            .ReturnsAsync(new PaymentResult { IsSuccess = true, TransactionId = "tx_1" })
+            .ReturnsAsync(new PaymentResult { IsSuccess = false, ErrorCode = "CARD_DECLINED" })
+            .ReturnsAsync(new PaymentResult { IsSuccess = true, TransactionId = "tx_3" });
+        var result = await new PaymentCoordinator(mock.Object).PayBatchAsync(new[] { Request(), Request(), Request() });
+        Assert.AreEqual(2, result.SuccessCount);
+        Assert.AreEqual(1, result.FailureCount);
+        Assert.IsFalse(result.Payments[1].IsSuccess);
+        mock.Verify(x => x.ProcessPaymentAsync(It.IsAny<PaymentRequest>()), Times.Exactly(3));
+    }
 }
