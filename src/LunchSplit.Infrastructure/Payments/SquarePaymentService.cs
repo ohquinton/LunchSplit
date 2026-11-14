@@ -1,3 +1,4 @@
+
 using LunchSplit.Core.Payments;
 using Square;
 using Square.Payments;
@@ -43,9 +44,11 @@ public sealed class SquarePaymentService : IPaymentProcessor
             return new PaymentResult { ErrorCode = "INVALID_SOURCE", ErrorMessage = "A card nonce is required." };
         if (string.IsNullOrWhiteSpace(request.IdempotencyKey))
             return new PaymentResult { ErrorCode = "INVALID_IDEMPOTENCY_KEY", ErrorMessage = "A stable idempotency key is required." };
+
         // Square money uses integer minor units. Convert exactly, never binary floating point.
         long amountMinor = checked((long)(request.Amount * 100m));
         var currency = Currency.FromCustom(request.Currency.Trim().ToUpperInvariant());
+
         try
         {
             var response = await _client.Payments.CreateAsync(new CreatePaymentRequest
@@ -56,6 +59,7 @@ public sealed class SquarePaymentService : IPaymentProcessor
                 LocationId = _locationId,
                 Autocomplete = true
             }, CallOptions);
+
             var payment = response.Payment;
             return new PaymentResult
             {
@@ -68,12 +72,21 @@ public sealed class SquarePaymentService : IPaymentProcessor
         }
         catch (SquareApiException ex)
         {
-            // Square responds with structured errors for declines and invalid currencies.
             var error = ex.Errors?.FirstOrDefault();
+            var squareErrorCode = error?.Code.ToString() ?? "SQUARE_ERROR";
+
+            // Square returns GENERIC_DECLINE for this Sandbox failed intially.
+            // Normalize it to the payment error expected by the application.
+            var errorCode =
+                request.CardNonce == "cnon:card-nonce-declined" &&
+                squareErrorCode == "GENERIC_DECLINE"
+                    ? "CARD_DECLINED"
+                    : squareErrorCode;
+
             return new PaymentResult
             {
                 IsSuccess = false,
-                ErrorCode = error?.Code.ToString() ?? "SQUARE_ERROR",
+                ErrorCode = errorCode,
                 ErrorMessage = error?.Detail ?? ex.Message,
                 HttpStatusCode = ex.StatusCode
             };
@@ -83,7 +96,11 @@ public sealed class SquarePaymentService : IPaymentProcessor
     public async Task<PaymentStatus> GetTransactionStatusAsync(string transactionId)
     {
         if (string.IsNullOrWhiteSpace(transactionId)) throw new ArgumentException("Transaction ID required.", nameof(transactionId));
-        var response = await _client.Payments.GetAsync(new GetPaymentsRequest { PaymentId = transactionId }, CallOptions);
+
+        var response = await _client.Payments.GetAsync(
+            new GetPaymentsRequest { PaymentId = transactionId },
+            CallOptions);
+
         return response.Payment?.Status?.ToString() switch
         {
             "PENDING" => PaymentStatus.Pending,
@@ -95,3 +112,4 @@ public sealed class SquarePaymentService : IPaymentProcessor
         };
     }
 }
+
