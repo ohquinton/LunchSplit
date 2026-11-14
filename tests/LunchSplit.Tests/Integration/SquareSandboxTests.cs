@@ -43,4 +43,13 @@ public class SquareSandboxTests
         Assert.AreEqual("CARD_DECLINED", result.ErrorCode);
     }
 
+    [TestMethod]
+    public async Task M3_08_EuroAtCadLocation_ReturnsBadRequest()
+    {
+        // Requires a CAD-denominated Sandbox location.
+        var result = await Gateway().ProcessPaymentAsync(Request(currency: "EUR"));
+        Assert.IsFalse(result.IsSuccess);
+        Assert.AreEqual(400, result.HttpStatusCode);
+    }
+
 }
