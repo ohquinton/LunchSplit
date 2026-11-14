@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FDF59479
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LunchSplit.Tests", "tests\LunchSplit.Tests\LunchSplit.Tests.csproj", "{04548A49-DF21-4EC9-AC63-928A6DF11781}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LunchSplit.Infrastructure", "src\LunchSplit.Infrastructure\LunchSplit.Infrastructure.csproj", "{8C9A4C71-70D7-4661-91F2-33809B32B65C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,8 +30,13 @@ Global
 		{04548A49-DF21-4EC9-AC63-928A6DF11781}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04548A49-DF21-4EC9-AC63-928A6DF11781}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04548A49-DF21-4EC9-AC63-928A6DF11781}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C9A4C71-70D7-4661-91F2-33809B32B65C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C9A4C71-70D7-4661-91F2-33809B32B65C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C9A4C71-70D7-4661-91F2-33809B32B65C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C9A4C71-70D7-4661-91F2-33809B32B65C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{8C9A4C71-70D7-4661-91F2-33809B32B65C} = {CA335E47-C786-4F0C-828C-3DA710C0F67C}
 		{588B9388-5E18-46DE-BF0F-4F878E688C10} = {CA335E47-C786-4F0C-828C-3DA710C0F67C}
 		{04548A49-DF21-4EC9-AC63-928A6DF11781} = {FDF59479-06EC-44BD-9FBB-9388D840814B}
 	EndGlobalSection
