@@ -11,6 +11,9 @@ reconciliation, input validation and receipt formatting.
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - Check with `dotnet --version` (should start with `8.`)
 
+#Credentials
+ The Square Sandbox access token and location ID are stored in the .env file at the solution root. The integration tests load these credentials automatically, so no additional configuration is required 
+
 ## Project structure
 
 ```
@@ -89,20 +92,12 @@ Notes:
 - **`Validate_NegativeWeight_ReturnsFail`** was added because the spec requires
   blocking negative weights but the matrix had no test for it.
 
-## Square Sandbox access for grading
 
-The five Square Sandbox integration tests were run successfully using a CAD Sandbox location. The Square access token is not stored in this repository or the submitted ZIP. The instructor can obtain the Sandbox credentials through a private, secure sharing link provided separately (for example, through the course LMS). No Square account password is required.
-
-After retrieving the Sandbox access token and location ID, open PowerShell in the solution directory and set the environment variables for that terminal session:
-
-```powershell
-$env:SQUARE_SANDBOX_ACCESS_TOKEN = Read-Host "Enter Sandbox Access Token"
-$env:SQUARE_SANDBOX_LOCATION_ID = Read-Host "Enter Sandbox Location ID"
-```
 
 Run the integration tests:
 
-```powershell
+
+powershell
 dotnet test --filter "FullyQualifiedName~SquareSandboxTests"
 ```
 
@@ -112,4 +107,4 @@ The five Moq unit tests do not require Square credentials:
 dotnet test --filter "FullyQualifiedName~PaymentProcessorMoqTests"
 ```
 
-The shared credentials must be set on the machine where the tests run. Neither the access token nor the secure-sharing link is included in this repository.
+
