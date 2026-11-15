@@ -6,7 +6,7 @@ namespace LunchSplit.Tests.Integration;
 
 /// <summary>
 /// Live integration tests. Set SQUARE_SANDBOX_ACCESS_TOKEN and SQUARE_SANDBOX_LOCATION_ID
-/// on your machine; missing secrets mark the tests inconclusive rather than making live requests.
+/// on your machine.
 /// </summary>
 [TestClass]
 [TestCategory("SquareSandbox")]
