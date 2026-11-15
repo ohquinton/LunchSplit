@@ -7,7 +7,6 @@ public interface IPaymentGateway
     bool RequestPayment(string name, decimal amount);
 }
 
-// F6 - not built yet, TDD-27 should fail until this is done
 public class PaymentRequester
 {
     private readonly IPaymentGateway _gateway;

@@ -99,7 +99,7 @@ public class BillValidatorTests
         CollectionAssert.Contains(result.Errors, "At least one attendee must be included in the split.");
     }
 
-    // Extra: spec says negative weights must be blocked, but the matrix has no test for it
+    
     [TestMethod]
     public void Validate_NegativeWeight_ReturnsFail()
     {

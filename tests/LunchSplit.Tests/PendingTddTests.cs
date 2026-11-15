@@ -6,8 +6,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LunchSplit.Tests;
 
 /// <summary>
-/// RED / PENDING tests for features coming in later assignments.
-/// These are SUPPOSED to fail right now (TDD red step).
 /// Run everything else with: dotnet test --filter "TestCategory!=Pending"
 /// </summary>
 [TestClass]
